@@ -13,7 +13,7 @@ public class loginTests extends TestBase {
     @Test
     public void positiveLoginTest(){
 
-        WebElement element;
+        System.out.println("");
 
         logger.info("Navigate to URL");
         driver.get(PropertyReader.getTheProperties("url"));

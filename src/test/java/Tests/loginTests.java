@@ -4,6 +4,7 @@ import Pages.LoginPage;
 import Utils.Driver;
 import Utils.PropertyReader;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,6 +12,8 @@ public class loginTests extends TestBase {
 
     @Test
     public void positiveLoginTest(){
+
+        WebElement element;
 
         logger.info("Navigate to URL");
         driver.get(PropertyReader.getTheProperties("url"));

@@ -4,11 +4,13 @@
 
     <test name="UI Test">
 
+
         <packages>
 
             <package name=".*"/>
 
         </packages>
+
 
     </test>
 

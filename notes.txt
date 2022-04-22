@@ -1,0 +1,95 @@
+Steps to create TestNG based framework:
+    1. Create a maven project
+    2. Add project specific dependencies: TestNG, Selenium WebDriver, WebDriverManager(bonigarcia),
+    3. add .gitignore with standard list of files and folders to be ignored
+    4. Create the package structure (tests, pages, utils)
+    5. Add maven surefire plugin and configure it to be able to run xml files through CMD
+    6. Add properties file and a Utility class PropertyReader
+    7. Add a TestBase class that keeps the common setup and teardown configurations
+    8. Add Singleton Driver class for proper WebDriver management to prevent multiple instantiation
+    9.
+
+
+
+
+
+    - In maven projects, main/java is used for application code whereas test/java is used for test code, it is important
+    to put your tests under test/java folder since mvn test command scans the test/java folder for tests.
+    - Maven dependency: collection of libraries (jars) that serves a specific purpose
+    - Maven plugin: maven's internal tool that performs a specific operation (surefire plugin runs the test)
+
+
+    - It is important t implement a way to run tests through command line in testing frameworks because tests are run in
+    a remote server and on schedule and the only way to launch your tests there would be some cmd command like
+    -DxmlFile=regression.xml
+
+
+    Page Object Model - a design pattern that is used in UI test automation frameworks where each page of the application
+    is represented by a page class and its elements are stored in that class.
+                    Advantages: readability, re-usability/maintainability (the core)
+
+    Page Factory - design pattern used specifically in Page Classes to simplify WebElement location through @FindBy annotations.
+    A required step for it to work properly is to add a constructor that calls intiElements method of the PageFactory class
+    to initialize all WebElements.
+
+
+    Cross Browser Testing can be implemented in various ways. The easiest solution is to use third party services such as
+    BrowserStack,Sauce Labs, Testim, Headspin, Browsera, Perfecto, Experitest, etc.
+
+    Another option is to implement it natively within the framework.
+    -- You can pass the browser value through CMD with a -D switch:
+                                    mvn test -DxmlFile=smoke_test_suite.xml -Dbrowser=edge
+                                    mvn test -DxmlFile=smoke_test_suite.xml -Dbrowser=chrome
+                                    mvn test -DxmlFile=smoke_test_suite.xml -Dbrowser=firefox
+
+    -- If you need to run tests in multiple browsers back to back, create a script file with multiple mvn commands
+            MAC: 1) Create a file with .sh extension
+                 2) Add #!/bin/bash to first line
+                 3) Add your mvn commands
+                 4) Make the script file executable: chmod u+x script_file.sh
+                 5) To execute the script file ./script_file.sh
+
+        WINDOWS: 1) Create a file with .bat extension
+                 2) Add your mvn commands with call:
+                    call mvn test -DxmlFile=smoke_test_suite.xml -Dbrowser=edge
+                    call mvn test -DxmlFile=smoke_test_suite.xml -Dbrowser=chrome
+                    call mvn test -DxmlFile=smoke_test_suite.xml -Dbrowser=firefox
+                 3) To execute the batch file type the name of the file (batch_file.bat) and hit enter
+
+
+    Reporting -> In this framework reporting is implemented by Extent Reports dependency, another common reporting
+     tool is Allure Reports...the reporting tool can vary in each project.
+
+
+    Parallel testing -> Running group of tests in parallel threads to reduce execution time and get faster test feedback.
+                2 ways:
+                    1) Selenium Grid - a hub and node style tool that lets you run the tests in parallel and in multiple
+                     browsers or platforms.
+                    2) Natively within the framework through testng.xml file:
+                        - add parallel attribute in <suite> tag of xml file with pre-defined values (methods, classes, tests)
+                        and thread-count that represents the amount of browsers
+                        - default thread count is 5
+                        - You can run methods, classes and tests in parallel using TestNG xml file
+                        - Adjust the Driver class with ThreadLocal<WebDriver> to provide each thread with its own WebDriver
+                        and make the getDriver() and quitDriver() methods synchronized.
+
+
+    Re-run failed tests -> Every time tests fail in a suite, TestNG creates a file called testng-failed.xml in the output
+        directory. This XML file contains the necessary information to rerun only these methods that failed, allowing you
+        to quickly reproduce the failures without having to run the entirety of your tests.
+
+
+
+   TestNG base TDD Framework components:
+
+   Java - write test code, implement test logic
+   Maven - project structure, dependency management, run tests through CMD (Surefire plugin)
+   Selenium - browser/UI interaction
+   TestNG - organize, structure, configure and run tests
+   WebDriverManager - automating browser drivers management
+   Faker - generate mock/fake test data
+   Extent Reports - generate html report and add logs
+   .properties file - test environment specific global variables
+
+   design patters used -- Singleton, Page Object Model, PageFactory
+   These patterns are used in framework for readability, re-usability, and maintainability

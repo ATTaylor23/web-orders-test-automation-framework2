@@ -26,7 +26,7 @@ public class TestBase {
         @BeforeSuite (alwaysRun = true)
         public void setUpReport(){
             report = new ExtentReports();
-            String path = System.getProperty("user.dir") + "target/extentReports/extentReport.html";
+            String path = System.getProperty("user.dir") + "/target/extentReports/extentReport.html";
             htmlReport = new ExtentSparkReporter(path);
             report.attachReporter(htmlReport);
 

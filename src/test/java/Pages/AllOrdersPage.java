@@ -38,5 +38,6 @@ public class AllOrdersPage {
                 checkbox.click();
         }
     }
+//nice job
 
 }
